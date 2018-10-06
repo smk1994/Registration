@@ -51,6 +51,21 @@ namespace Registration
                     MySqlCommand cmd2 = new MySqlCommand("insert into vehicledetails (VehicleNo,VehicleBrand,VehicleModel,EngineNo,ChassisNo,CustUserID) values('" + TextBoxVehicleNumber.Text + "','" +
                                                             TextBoxVehicleBrand.Text + "','" + TextBoxVehicleModel.Text + "','" + TextBoxVehicleEngineNumber.Text + "','" + TextBoxVehicleChassisNumber.Text + "','" + custID + "')", con);
                     cmd2.ExecuteNonQuery();
+
+                    //get vehicleID
+                    string getVehicleID = "select VehicleID from vehicledetails where VehicleNo like '" + TextBoxVehicleNumber.Text +"';";
+                    MySqlCommand cmd3 = new MySqlCommand(getVehicleID,con);
+                    Int32 vehicleID = (Int32)cmd3.ExecuteScalar();
+
+                    //get Employee ID
+                    string getemployee = "select empid from employeedetails where empemail like '" + Session["empname"].ToString() + "';";
+                    MySqlCommand cmd4 = new MySqlCommand(getemployee, con);
+                    Int32 getEmpID = (Int32)cmd4.ExecuteScalar();
+
+                    //inserting into jobcarddetails
+                    MySqlCommand cmd5 = new MySqlCommand("insert into jobcarddetails (VehicleProblem,ServiceStatus,CustUserID,VehicleID,EmpID) values('" + TextBoxVehicleProblem.Text + "','Pending',"+ custID + ","+ vehicleID+","+ getEmpID+");",con);
+                    cmd5.ExecuteNonQuery();
+
                     Label1.Visible = true;
                     Label1.Text = "Registration Successfull";
                     resetValues();
@@ -84,6 +99,7 @@ namespace Registration
             TextBoxVehicleModel.Text = "";
             TextBoxVehicleEngineNumber.Text = "";
             TextBoxVehicleChassisNumber.Text = "";
+            TextBoxVehicleProblem.Text = "";
         }
 
         //Back Button

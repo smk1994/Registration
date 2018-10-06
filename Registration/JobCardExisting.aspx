@@ -8,6 +8,7 @@
     <style type="text/css">
         .auto-style1 {
             width: 100%;
+            background-color:lightcyan;
         }
     </style>
 </head>
@@ -18,7 +19,7 @@
         </div>
         <br />
         <br />
-        <table class="auto-style1">
+        <table class="auto-style1" border="2">
             <tr>
                 <td>Select Email:</td>
                 <td>
