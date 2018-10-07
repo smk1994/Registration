@@ -28,6 +28,11 @@
         <asp:Button ID="ButtonViewJobCard" runat="server" OnClick="ButtonViewJobCard_Click" Text="View Service Details" />
         <br />
         <br />
+        <center>
+        <asp:RadioButtonList ID="RadioButtonList1" runat="server" Visible="False">
+        </asp:RadioButtonList></center>
+        <br />
+        <br />
         <asp:GridView style="text-align:center;" ID="GridView1" runat="server" AutoGenerateColumns="True" BackColor="#FF99FF" Font-Bold="True" Font-Size="Large" CellPadding="7">
         </asp:GridView>
     </form>
