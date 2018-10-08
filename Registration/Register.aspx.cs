@@ -89,6 +89,8 @@ namespace Registration
 
         private void resetValues()
         {
+            TextBoxAddress.Text = "";
+            TextBoxPhone.Text = "";
             TextBoxUserName.Text = "";
             TextBoxEmail.Text = "";
             TextBoxRepeatPassword.Text = "";

@@ -45,30 +45,30 @@ namespace Registration
         {
             try
             {
-                //get Customer ID with the help of Customer Email
                 con.Open();
+                //get Customer ID with the help of Customer Email
                 string email = DropDownListSelectCustomerEmail.SelectedValue.ToString();
-                string getID = "select CustUserID from registrationdetails where CustEmail like '" + email + "';";
-                MySqlCommand cmd1 = new MySqlCommand(getID, con);
-                Int32 getCustID = (Int32)cmd1.ExecuteScalar();
+                Int32 CustomerID = QueryOperationsGet.CustomerTableOperations.GetCustomerIDByEmail(email);
 
+                //get Vehicle ID by Vehicle Number
+                Int32 getVehicleIDbyVehicleNo = QueryOperationsGet.VehicleTableOperations.GetVehicleIDByVehicleNumber(TextBoxVehicleNumber.Text);
+                if (getVehicleIDbyVehicleNo == 0)
+                {
+                    //insert values in Vehicle Table
+                    MySqlCommand cmd = new MySqlCommand("insert into vehicledetails (VehicleNo,VehicleBrand,VehicleModel,EngineNo,ChassisNo,CustUserID) values('" + TextBoxVehicleNumber.Text + "','" +
+                                                        TextBoxVehicleBrand.Text + "','" + TextBoxVehicleModel.Text + "','" + TextBoxVehicleEngineNumber.Text + "','" + TextBoxVehicleChassisNumber.Text + "','" + CustomerID + "')", con);
+                    cmd.ExecuteNonQuery();
+                }
+                //get Vehicle ID with the help of Customer ID
+                Int32 getVehicleID = QueryOperationsGet.VehicleTableOperations.GetVehicleIDByCustomerIDAndVehicleNo(CustomerID,TextBoxVehicleNumber.Text);
                 
-                //insert values in Vehicle Table
-                MySqlCommand cmd = new MySqlCommand("insert into vehicledetails (VehicleNo,VehicleBrand,VehicleModel,EngineNo,ChassisNo,CustUserID) values('" + TextBoxVehicleNumber.Text + "','" +
-                                                    TextBoxVehicleBrand.Text + "','" + TextBoxVehicleModel.Text + "','" + TextBoxVehicleEngineNumber.Text + "','" + TextBoxVehicleChassisNumber.Text + "','" + getCustID + "')", con);
-                cmd.ExecuteNonQuery();
+                /*inserting values in job card details*/
+                //get Employee ID with the help of Employee Email
+                    Int32 getEmpID = QueryOperationsGet.EmployeeTableOperations.GetEmployeeIDByEmpEmail(Session["empname"].ToString());
 
-                //inserting values in job card details
-                string getvehicle = "select VehicleID from vehicledetails where CustUserID = " +getCustID+ ";";
-                MySqlCommand cmd3 = new MySqlCommand(getvehicle,con);
-                Int32 getVehicleID= (Int32)cmd3.ExecuteScalar();
-                string getemployee= "select empid from employeedetails where empemail like '" + Session["empname"].ToString() + "';";
-                MySqlCommand cmd4 = new MySqlCommand(getemployee, con);
-                Int32 getEmpID = (Int32)cmd4.ExecuteScalar();
-
-                string insertstring = "insert into jobcarddetails (VehicleProblem,ServiceStatus,CustUserID,VehicleID,EmpID) values('" + TextBoxVehicleProblem.Text + "','Pending','" + getCustID + "','" + getVehicleID + "','" + getEmpID + "');";
-                MySqlCommand cmd2 = new MySqlCommand(insertstring, con);
-                cmd2.ExecuteNonQuery();
+                    string insertstring = "insert into jobcarddetails (VehicleProblem,ServiceStatus,CustUserID,VehicleID,EmpID) values('" + TextBoxVehicleProblem.Text + "','Pending','" + CustomerID + "','" + getVehicleID + "','" + getEmpID + "');";
+                    MySqlCommand cmd2 = new MySqlCommand(insertstring, con);
+                    cmd2.ExecuteNonQuery();
                 
                 JobCardLabel.Visible = true;
                 JobCardLabel.Text = "Job Card Generated Successfully";
@@ -81,10 +81,7 @@ namespace Registration
                 JobCardLabel.Visible = true;
                 JobCardLabel.Text = "Job Card Cannot Be Generated";
             }
-            finally
-            {
-                con.Close();
-            }
+            finally{con.Close();}
         }
 
         private void resetValues()
