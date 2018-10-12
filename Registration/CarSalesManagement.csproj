@@ -103,6 +103,7 @@
     <Compile Include="CustomerLogin.aspx.designer.cs">
       <DependentUpon>CustomerLogin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DBManager\GetConnection.cs" />
     <Compile Include="EmployeeHomePage.aspx.cs">
       <DependentUpon>EmployeeHomePage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

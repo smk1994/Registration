@@ -44,6 +44,10 @@
             </table>
         </div>
         <br />
+        
+        <asp:Button ID="ForgotPassword" runat="server" OnClick="ForgotPasswordMethod" Text="Forgot Password" Visible="true"/><br />
+        <asp:TextBox ID="forgotpasswordtextbox" runat="server" TextMode="Password" Visible="false" Text="Enter Your Registered"> Email ID" ForeColor="Black"></asp:TextBox>
+        <asp:Button ID="ForgotPasswordButton" runat="server" OnClick="ForgotPasswordMethodSendEmail" Text="Send Email" Visible="false"/><br />
     </form>
 </body>
 </html>
